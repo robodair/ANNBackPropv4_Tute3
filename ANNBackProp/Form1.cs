@@ -13,8 +13,15 @@ namespace ANNShell
     public partial class Form1 : Form
     {
         private string dir = @"DataFiles\";
+        private string outDir = @"DataFiles\Out\";
 
         public string Dir { get => dir; }
+        public string OutDir {
+            get {
+                System.IO.Directory.CreateDirectory(outDir);
+                return outDir;
+            }
+        }
 
         public Form1()
         {
@@ -61,7 +68,7 @@ namespace ANNShell
             d.readFromFile(Dir, "test1.txt");
             string s = d.showData();
             textBox1.Text = s;
-            d.writeToFile(Dir, "temp.txt");
+            d.writeToFile(OutDir, "temp.txt");
             d.normalize(0, 1);
             string ss = d.showData();
             textBox1.Text = textBox1.Text +"\r\n\r\n" +ss;
@@ -128,9 +135,9 @@ namespace ANNShell
             Random rnd1 = new Random(103);
             irisExemplar.extractSplit(out trainData, out tempData, 50, rnd1);
             tempData.extractSplit(out testData, out valData, 50, rnd1);
-            trainData.writeToFile(Dir, "tempTrain.txt"); // debug
-            testData.writeToFile(Dir, "tempTest.txt");
-            valData.writeToFile(Dir, "tempVal.txt");
+            trainData.writeToFile(OutDir, "tempTrain.txt"); // debug
+            testData.writeToFile(OutDir, "tempTest.txt");
+            valData.writeToFile(OutDir, "tempVal.txt");
             
             string s1 = trainData.showDataPart(5, inputs+outputs, "F4", "Training Data");
             textBox1.AppendText(s1);
@@ -147,15 +154,15 @@ namespace ANNShell
             NeuralNetwork nn = new NeuralNetwork(inputs, 4, outputs, new UI(this), rnd1);
             nn.InitializeWeights(rnd1);
             //Console.WriteLine("\nBeginning training using incremental back-propagation\n");
-            nn.train(trainData.data, testData.data, 200, 0.05, Dir+"nnlog.txt", nnChart, nnProgressBar);
+            nn.train(trainData.data, testData.data, 200, 0.05, OutDir+"nnlog.txt", nnChart, nnProgressBar);
             //Console.WriteLine("Training complete");
 
-            double trainAcc = nn.Accuracy(trainData.data,Dir+"trainOut.txt");
-            string ConfusionTrain = nn.showConfusion(Dir+"trainConfusion.txt");
-            double testAcc = nn.Accuracy(testData.data,Dir+"testOut.txt");
-            string ConfusionTest = nn.showConfusion(Dir + "testConfusion.txt");
-            double valAcc = nn.Accuracy(valData.data,Dir+"valOut.txt");
-            string ConfusionVal = nn.showConfusion(Dir + "valConfusion.txt");
+            double trainAcc = nn.Accuracy(trainData.data, OutDir + "trainOut.txt");
+            string ConfusionTrain = nn.showConfusion(OutDir + "trainConfusion.txt");
+            double testAcc = nn.Accuracy(testData.data, OutDir + "testOut.txt");
+            string ConfusionTest = nn.showConfusion(OutDir + "testConfusion.txt");
+            double valAcc = nn.Accuracy(valData.data, OutDir + "valOut.txt");
+            string ConfusionVal = nn.showConfusion(OutDir + "valConfusion.txt");
 
             // convert accuracy to percents
             trainAcc = trainAcc * 100;
