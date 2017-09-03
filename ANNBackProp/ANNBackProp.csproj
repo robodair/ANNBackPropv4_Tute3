@@ -83,6 +83,28 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataFiles\iris.Txt" />
+    <Content Include="DataFiles\irisDataOriginal.txt" />
+    <Content Include="DataFiles\irisDataOriginalNum.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DataFiles\nnlog.txt" />
+    <Content Include="DataFiles\temp.txt" />
+    <Content Include="DataFiles\tempTest.txt" />
+    <Content Include="DataFiles\tempTrain.txt" />
+    <Content Include="DataFiles\tempVal.txt" />
+    <Content Include="DataFiles\test1.txt" />
+    <Content Include="DataFiles\testConfusion.txt" />
+    <Content Include="DataFiles\testOut.txt" />
+    <Content Include="DataFiles\train200e40.txt" />
+    <Content Include="DataFiles\Train4000e10.txt" />
+    <Content Include="DataFiles\train4000e40.txt" />
+    <Content Include="DataFiles\trainConfusion.txt" />
+    <Content Include="DataFiles\trainOut.txt" />
+    <Content Include="DataFiles\valConfusion.txt" />
+    <Content Include="DataFiles\valOut.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

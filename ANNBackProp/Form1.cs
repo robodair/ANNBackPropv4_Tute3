@@ -12,7 +12,9 @@ namespace ANNShell
 {
     public partial class Form1 : Form
     {
-        string dir = @"D:\SC2016\SC2016ANNv3\SC2016ANNv3\ANNBackProp\ANNBackProp\DataFiles\";
+        private string dir = @"DataFiles\";
+
+        public string Dir { get => dir; }
 
         public Form1()
         {
@@ -56,10 +58,10 @@ namespace ANNShell
         private void btnTest1_Click(object sender, EventArgs e)
         {
             DataClass d = new DataClass();
-            d.readFromFile(dir, "test1.txt");
+            d.readFromFile(Dir, "test1.txt");
             string s = d.showData();
             textBox1.Text = s;
-            d.writeToFile(dir, "temp.txt");
+            d.writeToFile(Dir, "temp.txt");
             d.normalize(0, 1);
             string ss = d.showData();
             textBox1.Text = textBox1.Text +"\r\n\r\n" +ss;
@@ -77,7 +79,7 @@ namespace ANNShell
         {
             textBox1.Text = "";
             DataClass d = new DataClass();
-            d.readFromFile(dir, "test1.txt");
+            d.readFromFile(Dir, "test1.txt");
             string s = d.showData();
             textBox1.Text = s;
             textBox1.Text = textBox1.Text + "\r\n\r\n";
@@ -103,7 +105,7 @@ namespace ANNShell
 
 
 
-            DataClass irisRaw = new DataClass(dir, datafile, new UI(this));
+            DataClass irisRaw = new DataClass(Dir, datafile, new UI(this));
             string s = irisRaw.showDataPart(5, inputs+1, "F4", "4000 e 10");
             textBox1.AppendText(s);
             textBox1.AppendText("\r\n\r\n");
@@ -126,9 +128,9 @@ namespace ANNShell
             Random rnd1 = new Random(103);
             irisExemplar.extractSplit(out trainData, out tempData, 50, rnd1);
             tempData.extractSplit(out testData, out valData, 50, rnd1);
-            trainData.writeToFile(dir, "tempTrain.txt"); // debug
-            testData.writeToFile(dir, "tempTest.txt");
-            valData.writeToFile(dir, "tempVal.txt");
+            trainData.writeToFile(Dir, "tempTrain.txt"); // debug
+            testData.writeToFile(Dir, "tempTest.txt");
+            valData.writeToFile(Dir, "tempVal.txt");
             
             string s1 = trainData.showDataPart(5, inputs+outputs, "F4", "Training Data");
             textBox1.AppendText(s1);
@@ -145,15 +147,15 @@ namespace ANNShell
             NeuralNetwork nn = new NeuralNetwork(inputs, 4, outputs, new UI(this), rnd1);
             nn.InitializeWeights(rnd1);
             //Console.WriteLine("\nBeginning training using incremental back-propagation\n");
-            nn.train(trainData.data, testData.data, 200, 0.05, dir+"nnlog.txt", nnChart, nnProgressBar);
+            nn.train(trainData.data, testData.data, 200, 0.05, Dir+"nnlog.txt", nnChart, nnProgressBar);
             //Console.WriteLine("Training complete");
 
-            double trainAcc = nn.Accuracy(trainData.data,dir+"trainOut.txt");
-            string ConfusionTrain = nn.showConfusion(dir+"trainConfusion.txt");
-            double testAcc = nn.Accuracy(testData.data,dir+"testOut.txt");
-            string ConfusionTest = nn.showConfusion(dir + "testConfusion.txt");
-            double valAcc = nn.Accuracy(valData.data,dir+"valOut.txt");
-            string ConfusionVal = nn.showConfusion(dir + "valConfusion.txt");
+            double trainAcc = nn.Accuracy(trainData.data,Dir+"trainOut.txt");
+            string ConfusionTrain = nn.showConfusion(Dir+"trainConfusion.txt");
+            double testAcc = nn.Accuracy(testData.data,Dir+"testOut.txt");
+            string ConfusionTest = nn.showConfusion(Dir + "testConfusion.txt");
+            double valAcc = nn.Accuracy(valData.data,Dir+"valOut.txt");
+            string ConfusionVal = nn.showConfusion(Dir + "valConfusion.txt");
 
             // convert accuracy to percents
             trainAcc = trainAcc * 100;
